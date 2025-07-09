@@ -31,7 +31,7 @@ function findTopStudent(students) {
   return topStudent;
 }
 
-// Task 3: Sort Students by Average Grade
+// Task 3: Sort Students by Average Grade in Descending Order
 function sortStudentsByGrade(students) {
   const studentsWithAvg = calculateAverageGrades(students);
   return studentsWithAvg.slice().sort((a, b) => b.averageGrade - a.averageGrade);
