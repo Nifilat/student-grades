@@ -8,19 +8,44 @@ let students = [
 
 // Task 1: Calculate Average Grades
 function calculateAverageGrades(students) {
-  return students.map(student => {
-    const sum = student.grades.reduce((accumulator, grade) => accumulator + grade, 0);
-    const avg = sum / student.grades.length;
-    return {
-      id: student.id,
-      name: student.name,
-      averageGrade: Number(avg.toFixed(2)),
-    };
-  });
+    if (!Array.isArray(students)) {
+        throw new Error('Students must be an array');
+    }
+    if (students.length === 0) {
+        throw new Error('Students array cannot be empty');
+    }
+
+    return students.map(student => {
+        const { id, name, grades } = student;
+
+        if (
+            typeof id === 'undefined' ||
+            typeof name !== 'string' ||
+            !Array.isArray(grades) ||
+            grades.length === 0 ||
+            !grades.every(grade => typeof grade === 'number' && !isNaN(grade))
+        ) {
+            throw new Error('Each student must have a valid id, name, and at least one grade');
+        }
+
+        const avg = grades.reduce((sum, grade) => sum + grade, 0) / grades.length;
+        return {
+            id,
+            name,
+            averageGrade: Math.round(avg * 100) / 100
+        };
+    });
 }
 
 // Task 2: Find Top Student
 function findTopStudent(students) {
+  
+  if (!Array.isArray(students)) {
+    throw new Error('Students must be an array');
+  }
+  if (students.length === 0) {
+    throw new Error('Students array cannot be empty');
+  }
   const studentsWithAvg = calculateAverageGrades(students);
   let topStudent = studentsWithAvg[0];
   studentsWithAvg.forEach(student => {
